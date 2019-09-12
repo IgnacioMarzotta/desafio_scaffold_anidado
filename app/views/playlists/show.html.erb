@@ -1,3 +1,6 @@
+<%= link_to 'Edit', edit_playlist_path(@playlist) %> |
+<%= link_to 'Back', playlists_path %>
+
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -10,5 +13,16 @@
   <%= @playlist.user.name %>
 </p>
 
-<%= link_to 'Edit', edit_playlist_path(@playlist) %> |
-<%= link_to 'Back', playlists_path %>
+<%= form_with(model: Song.new, url: playlist_songs_path(@playlist), local: true) do |f| %>
+  <%= f.text_field :artist %>
+  <%= f.text_field :name %>
+  <%= f.submit :submit %>
+<% end %>
+
+</ul>
+  <% Song.where(playlist_id: @playlist.id).each do |song| %>
+    <li> Song n° <%= song.id %>, <%= song.artist %> , <%= song.name %></li>
+    <li><%= link_to 'Delete', song, method: :delete, data: { confirm: 'Are you sure?' } %></li>
+    <br>
+  <% end %>
+<ul>
